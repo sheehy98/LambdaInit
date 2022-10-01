@@ -17,8 +17,8 @@ let response;
 exports.lambdaHandler = async (event, context) => {
     try {
         console.log(event)
-        let a1 = event.arg1
-        let a2 = event.arg2
+        let a1 = parseInt(event.arg1)
+        let a2 = parseInt(event.arg2)
         let sum = a1+a2
         // const ret = await axios(url);
         response = {

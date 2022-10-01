@@ -17,11 +17,14 @@ let response;
 exports.lambdaHandler = async (event, context) => {
     try {
         console.log(event)
+        let a1 = event.arg1
+        let a2 = event.arg2
+        let sum = a1+a2
         // const ret = await axios(url);
         response = {
             'statusCode': 200,
             'body': JSON.stringify({
-                message: 'hello world',
+                result: sum,
                 // location: ret.data.trim()
             })
         }

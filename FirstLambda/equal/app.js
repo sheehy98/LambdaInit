@@ -15,23 +15,33 @@ let response;
  * 
  */
 exports.lambdaHandler = async (event, context) => {
+    let status;
+    let body = {}
     try {
-        console.log(event)
-        let a1 = parseInt(event.arg1)
-        let a2 = parseInt(event.arg2)
-        let sum = a1+a2
-        // const ret = await axios(url);
-        response = {
-            'statusCode': 200,
-            'body': JSON.stringify({
-                result: sum,
-                // location: ret.data.trim()
-            })
+        let info = JSON.parse(event.body)
+        let a1 = parseInt(info.arg1)
+        let a2 = parseInt(info.arg2)
+        
+        if (isNaN(a1) || isNaN(a2)) {
+            status = 400
+            body['error'] = 'non-numeric input.'
+        } else {
+            status = 200
+            body['result'] = (a1 == a2).toString()
         }
     } catch (err) {
-        console.log(err);
-        return err;
+        status = 400
+        body['error'] = err.toString()
     }
-
+    
+    response = {
+        'statusCode': status,
+        headers: {
+            "Access-Control-Allow-Headers" : "Content-Type",
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Methods" : "POST"
+        },
+        'body': JSON.stringify(body)
+    }
     return response
 };
